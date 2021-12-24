@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    container_name: wp_mysql
+    image: mysql:latest
+    restart: always
+    env_file:
+      - mysql.env
+    command: '--default-authentication-plugin=mysql_native_password'
+
+  wordpress:
+    container_name: wp_wordpress
+    image: wordpress:latest
+    restart: always
+    ports:
+      - 3363:80
+    env_file:
+      - wp.env
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+volumes:
+  wordpress:
